@@ -11,7 +11,7 @@ function App() {
   return (
     <>
       <NavBar />
-      <div className="container mx-auto">
+      <div className="container mx-auto mt-10">
         <HeroSection />
         <FeatureSection />
         <Workflow />
