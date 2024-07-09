@@ -5,12 +5,41 @@ import { useState } from "react";
 const NavBar = () => {
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
 
+  /////////////////////////////////////////////////////////////////////
+
+  const [isSticky, setIsSticky] = useState(false);
+  const [lastScrollY, setLastScrollY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > lastScrollY) {
+        // User is scrolling down
+        setIsSticky(false);
+      } else {
+        // User is scrolling up
+        setIsSticky(true);
+      }
+      setLastScrollY(window.scrollY);
+    };
+
+    window.addEventListener("scroll", handleScroll, false);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll, false);
+    };
+  }, [lastScrollY]);
+
+  ///////////////////////////////////////////////////////
+
   const toggleNavbar = () => {
     setMobileDrawerOpen(!mobileDrawerOpen);
   };
   return (
-    <div className="sticky top-0 z-50 py-3 backdrop-blur-lg border-b border-neutral-700/80">
-      <div className="container px-4 mx-auto relative text-sm">
+  <div
+      className={`sticky top-0 z-50 py-3 backdrop-blur-lg border-b border-neutral-700/80 transition-transform duration-300 ${
+        isSticky ? "transform translate-y-0 " : "transform -translate-y-full"
+      }`}
+    >      <div className="container px-4 mx-auto relative text-sm">
         <div className="flex justify-between items-center">
           {/* ---------------------------------------- */}
           {/* ----------------- part A --------------- */}
